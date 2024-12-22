@@ -1,0 +1,14 @@
+#root {
+  margin: 0 auto;
+  text-align: center;
+  
+  --barber-900: #12131b;
+  --barber-400: #1b1c29;
+  --barber-100: #c6c6c6;
+  --button-cta: #fba931;
+  --button-default: #fff;
+  --button-gray: #dfdfdf;
+  --button-danger: #ff4040;
+  --orange-900: #fba931;
+  
+}

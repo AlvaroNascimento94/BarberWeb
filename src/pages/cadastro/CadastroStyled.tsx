@@ -1,5 +1,6 @@
 import styled from "styled-components";
 
+
 export const InputPassword = styled.div`
   display: flex;
   flex-direction: row;
@@ -12,8 +13,8 @@ export const InputPassword = styled.div`
     flex: 1;
     padding-right: 4.5rem; 
     background: var(--barber-400);
-    height: 3rem;
     border: none;
+    height: 3rem;
   }
 
   button {

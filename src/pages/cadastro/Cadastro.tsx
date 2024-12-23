@@ -9,19 +9,19 @@ import {
 } from "@chakra-ui/react";
 import logo from "../../../public/image/logotipo.png";
 import { useState } from "react";
-import { InputPassword } from "./LoginStyled";
+import { InputPassword } from "./CadastroStyled";
 
-export default function Login() {
+export default function Cadastro() {
   const [show, setShow] = useState(false);
 
+  const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
   const handleClick = () => setShow(!show);
 
-  function handleLogin() {
-    console.log(email, password);
-    
+  const handleCadastrar = () => {
+    console.log(name, email, password);
     
   }
 
@@ -40,14 +40,27 @@ export default function Login() {
           background="var(--barber-400)"
           variant="filled"
           size="lg"
+          placeholder="Nome da Barbearia"
+          type="text"
+          required
+          mb={3}
+          color="white"
+          width="100%"
+          value={name}
+          onChange={(e) => setName(e.target.value)}
+        />
+        <Input
+          background="var(--barber-400)"
+          variant="filled"
+          size="lg"
           placeholder="Email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
           type="email"
           required
           mb={3}
           color="white"
           width="100%"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
         />
         <InputPassword>
           <Input
@@ -73,14 +86,14 @@ export default function Login() {
             bg: "var(--button-gray)",
             color: "var(--button-cta)",
           }}
-          onClick={handleLogin}
+          onClick={handleCadastrar}
         >
-          Acessar
+          Cadastrar
         </Button>
         <Center mt={6}>
-          <Link color="var(--barber-100)" href="/register">
+          <Link color="var(--barber-100)" href="/">
             <Text>
-              Não tem uma conta? <strong> Registre-se</strong>
+              Ja possui uma conta? <strong> Faça Login</strong>
             </Text>
           </Link>
         </Center>

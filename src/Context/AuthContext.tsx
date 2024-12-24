@@ -1,10 +1,12 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { createContext, ReactNode, useState } from "react";
+import { destroyCookie } from 'nookies'
+import { useNavigate} from 'react-router-dom'
 
 interface AuthContextData {
     user: UserProps;
     isAuthenticated: boolean;
-    signIn: (credentials: SignInProps) => Promise<void>;
+    SignIn: (credentials: SignInProps) => Promise<void>;
 }
 
 interface UserProps{
@@ -32,12 +34,24 @@ interface SignInProps{
 
 export const AuthContext = createContext({} as AuthContextData);
 
+export function SignOut(){
+    console.log("Error logut");
+    const navigate = useNavigate();
+    try {
+        destroyCookie(null, '@barber.token',{path: '/'});
+        navigate('/');
+    } catch ( err) {
+        console.log("erro ao sair");
+        
+    }
+}
+
 export function AuthProvider({children}: AuthProviderProps) {
     const [user, setUser] = useState<UserProps>();
     const isAuthenticated = !!user;
 
 
-    async function signIn({email, password}:SignInProps) {
+    async function SignIn({email, password}:SignInProps) {
         console.log("Chamou a função signIn");
         
         console.log({
@@ -48,7 +62,7 @@ export function AuthProvider({children}: AuthProviderProps) {
     }
 
     return (
-        <AuthContext.Provider value={{user, isAuthenticated, signIn }}>
+        <AuthContext.Provider value={{user, isAuthenticated, SignIn }}>
             {children}
         </AuthContext.Provider>
     )

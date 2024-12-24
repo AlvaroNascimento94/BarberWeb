@@ -38,7 +38,7 @@ export default function Cadastro() {
         </Center>
         <Input
           background="var(--barber-400)"
-          variant="filled"
+          variant="outline"
           size="lg"
           placeholder="Nome da Barbearia"
           type="text"
@@ -51,7 +51,7 @@ export default function Cadastro() {
         />
         <Input
           background="var(--barber-400)"
-          variant="filled"
+          variant="outline"
           size="lg"
           placeholder="Email"
           type="email"

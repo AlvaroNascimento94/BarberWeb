@@ -8,10 +8,14 @@ import {
   Text,
 } from "@chakra-ui/react";
 import logo from "../../../public/image/logotipo.png";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { InputPassword } from "./LoginStyled";
 
+import { AuthContext } from "../../Context/AuthContext";
+
 export default function Login() {
+  const { signIn } = useContext(AuthContext);
+
   const [show, setShow] = useState(false);
 
   const [email, setEmail] = useState("");
@@ -19,10 +23,8 @@ export default function Login() {
 
   const handleClick = () => setShow(!show);
 
-  function handleLogin() {
-    console.log(email, password);
-    
-    
+  async function handleLogin() {
+    await signIn({ email, password });
   }
 
   return (
@@ -38,7 +40,7 @@ export default function Login() {
         </Center>
         <Input
           background="var(--barber-400)"
-          variant="filled"
+          variant="outline"
           size="lg"
           placeholder="Email"
           value={email}

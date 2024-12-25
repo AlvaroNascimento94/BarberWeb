@@ -10,21 +10,30 @@ import {
 import logo from "../../../public/image/logotipo.png";
 import { useContext, useState } from "react";
 import { InputPassword } from "./LoginStyled";
+import {parseCookies} from "nookies";
 
 import { AuthContext } from "../../Context/AuthContext";
+import { useNavigate } from "react-router-dom";
 
 export default function Login() {
-  const { signIn } = useContext(AuthContext);
+  const { SignIn } = useContext(AuthContext);
 
   const [show, setShow] = useState(false);
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const navigate = useNavigate();
 
   const handleClick = () => setShow(!show);
 
   async function handleLogin() {
-    await signIn({ email, password });
+    await SignIn({ email, password });
+    const cookies = parseCookies()
+    const isLogged = cookies["@barber.token"]
+
+    if (isLogged) {
+      navigate("/dashboard");
+    }
   }
 
   return (

@@ -8,10 +8,16 @@ import {
   Text,
 } from "@chakra-ui/react";
 import logo from "../../../public/image/logotipo.png";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { InputPassword } from "./CadastroStyled";
+import { AuthContext } from "@/Context/AuthContext";
+import { useNavigate } from "react-router-dom";
 
 export default function Cadastro() {
+  const { SignUp } = useContext(AuthContext);
+
+  const navigate = useNavigate();
+
   const [show, setShow] = useState(false);
 
   const [name, setName] = useState("");
@@ -20,9 +26,12 @@ export default function Cadastro() {
 
   const handleClick = () => setShow(!show);
 
-  const handleCadastrar = () => {
-    console.log(name, email, password);
-    
+  async function handleCadastrar() {
+    if (email !== "" && password !== "" && name !== "") {
+      await SignUp({ name, email, password });
+      navigate("/dashboard");
+    }
+    return;
   }
 
   return (

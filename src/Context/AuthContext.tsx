@@ -8,6 +8,8 @@ interface AuthContextData {
   user: UserProps;
   isAuthenticated: boolean;
   SignIn: (credentials: SignInProps) => Promise<void>;
+  SignUp: (credentials: SignUpProps) => Promise<void>;
+  LogoutUser: () => Promise<void>;
 }
 
 interface UserProps {
@@ -32,6 +34,12 @@ interface SignInProps {
   password: string;
 }
 
+interface SignUpProps {
+  name: string;
+  email: string;
+  password: string;
+}
+
 export const AuthContext = createContext({} as AuthContextData);
 
 export function SignOut() {
@@ -48,7 +56,7 @@ export function SignOut() {
 export function AuthProvider({ children }: AuthProviderProps) {
   const [user, setUser] = useState<UserProps>();
   const isAuthenticated = !!user;
-  
+
   async function SignIn({ email, password }: SignInProps) {
     try {
       const response = await api.post("/session", {
@@ -68,8 +76,32 @@ export function AuthProvider({ children }: AuthProviderProps) {
       console.log("erro ao logar", err);
     }
   }
+
+  async function SignUp({ name, email, password }: SignUpProps) {
+    try {
+      const response = await api.post("/users", {
+        name,
+        email,
+        password,
+      });
+
+      SignIn({ email, password });
+
+    } catch (error) {
+      console.log("erro ao cadastrar", error);
+    }
+  }
+
+  async function LogoutUser() {
+    try {
+      destroyCookie(null, "@barber.token", { path: "/" });
+      setUser(null);
+    } catch (error) {
+      console.log("erro ao sair", error);
+    }
+  }
   return (
-    <AuthContext.Provider value={{ user, isAuthenticated, SignIn }}>
+    <AuthContext.Provider value={{ user, isAuthenticated, SignIn, SignUp, LogoutUser }}>
       {children}
     </AuthContext.Provider>
   );

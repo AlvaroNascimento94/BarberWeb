@@ -78,6 +78,7 @@ export default function Cadastro() {
             placeholder="Enter password"
             color="white"
             required
+            variant="outline"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
           />

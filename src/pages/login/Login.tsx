@@ -27,6 +27,9 @@ export default function Login() {
   const handleClick = () => setShow(!show);
 
   async function handleLogin() {
+    if( email==="" || password===""){
+      return;
+    }
     await SignIn({ email, password });
     const cookies = parseCookies()
     const isLogged = cookies["@barber.token"]

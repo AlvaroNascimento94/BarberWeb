@@ -10,10 +10,9 @@ export const InputPassword = styled.div`
 
  input {
     flex: 1;
-    padding-right: 4.5rem; 
+    padding-right: 4.5rem;
     background: var(--barber-400);
     height: 3rem;
-    border: none;
   }
 
   button {

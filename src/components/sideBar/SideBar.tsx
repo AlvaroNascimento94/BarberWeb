@@ -69,7 +69,7 @@ const SidebarContent = ({ onClose, ...rest }: SidebarProps) => {
       {...rest}
     >
       <Flex h="20" alignItems="center" mx="8" justifyContent="space-between">
-        <Link to="/">
+        <Link to="/dashboard">
           <Flex
             cursor="pointer"
             userSelect="none"

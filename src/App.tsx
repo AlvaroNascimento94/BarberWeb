@@ -4,32 +4,33 @@ import Dashboard from "./pages/dashboard/Dashboard";
 import Login from "./pages/login/Login";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import ProtectedRoute from "./utils/routes";
+import Profile from "./pages/profile/Profile";
 
 const router = createBrowserRouter([
   {
     path: "/",
-    element: (
-
-        <Login />
-
-    ),
+    element: <Login />,
   },
   {
     path: "/register",
-    element: (
-
-        <Cadastro />
-    ),
+    element: <Cadastro />,
   },
   {
     path: "/dashboard",
-
     element: (
       <ProtectedRoute>
         <Dashboard />
       </ProtectedRoute>
     ),
   },
+  {
+    path: "/profile",
+    element: (
+      <ProtectedRoute>
+        <Profile />
+      </ProtectedRoute>
+    ),
+  }
 ]);
 
 function App() {

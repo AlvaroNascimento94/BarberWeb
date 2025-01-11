@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { createContext, ReactNode, useState } from "react";
-import { destroyCookie, setCookie } from "nookies";
+import { createContext, ReactNode, useEffect, useState } from "react";
+import { destroyCookie, parseCookies, setCookie } from "nookies";
 import { useNavigate } from "react-router-dom";
 import { api } from "../services/apiClient";
 
@@ -43,19 +43,34 @@ interface SignUpProps {
 export const AuthContext = createContext({} as AuthContextData);
 
 export function SignOut() {
-  console.log("Error logut");
   const navigate = useNavigate();
   try {
     destroyCookie(null, "@barber.token", { path: "/" });
     navigate("/");
   } catch (err) {
-    console.log("erro ao sair");
+    console.log("Erro ao Deslogar");
   }
 }
+
 
 export function AuthProvider({ children }: AuthProviderProps) {
   const [user, setUser] = useState<UserProps>();
   const isAuthenticated = !!user;
+
+  useEffect(() => {
+    const { "@barber.token": token } = parseCookies();
+
+    if (token) {
+      api.get("/me")
+        .then((response) => {
+          const { id, name, email, endereco, subscriptions } = response.data;
+          setUser({ id, name, email, endereco, subscriptions });
+        })
+        .catch(() => {
+          LogoutUser();
+        });
+    }
+  }, []);
 
   async function SignIn({ email, password }: SignInProps) {
     try {
@@ -70,10 +85,11 @@ export function AuthProvider({ children }: AuthProviderProps) {
         path: "/",
       });
       setUser({ id, name, email, endereco, subscriptions });
+      setCookie(undefined, "@user", JSON.stringify({ id, name, email, endereco, subscriptions }));
 
       api.defaults.headers.common["Authorization"] = `Bearer ${token}`;
     } catch (err) {
-      console.log("erro ao logar", err);
+      console.log("Erro ao logar", err);
     }
   }
 
@@ -95,6 +111,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
   async function LogoutUser() {
     try {
       destroyCookie(null, "@barber.token", { path: "/" });
+      destroyCookie(null, "@user", { path: "/" });
       setUser(null);
     } catch (error) {
       console.log("erro ao sair", error);

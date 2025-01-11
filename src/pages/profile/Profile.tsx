@@ -1,8 +1,63 @@
 import { Flex, Text, Heading, Box, Input, Button } from "@chakra-ui/react";
 import { SideBar } from "@/components/sideBar/SideBar";
 import { Link } from "react-router-dom";
+import { AuthContext } from "@/Context/AuthContext";
+import { useContext, useEffect, useState } from "react";
+import { parseCookies, setCookie } from "nookies";
+import { api } from "@/services/apiClient";
+
+interface UserProps {
+  id: string;
+  name: string;
+  email: string;
+  endereco: string | null;
+  subscriptions?: {
+    id: string;
+    status: string;
+  } | null;
+}
 
 export default function Profile() {
+  const { LogoutUser } = useContext(AuthContext);
+
+  const [name, setName] = useState<string>("");
+  const [endereco, setEndereco] = useState<string>("");
+  const [premium, setPremium] = useState<boolean | null>(null);
+
+  async function handleLogout() {
+    await LogoutUser();
+    window.location.reload();
+  }
+
+  async function handleSave() {
+    const cookies = parseCookies();
+
+    const storedUser = JSON.parse(cookies["@user"]);
+    const updatedUser: UserProps = {
+      ...storedUser,
+      name,
+      endereco,
+    };
+    setCookie(null, "@user", JSON.stringify(updatedUser), {
+      maxAge: 60 * 60 * 24 * 30, // 30 days
+    });
+    await api.put("/users", {
+      name,
+      endereco,
+    });
+    alert("Dados atualizados com sucesso!");
+  }
+
+  useEffect(() => {
+    const cookies = parseCookies();
+    if (cookies["@user"]) {
+      const storedUser = JSON.parse(cookies["@user"]);
+      setName(storedUser.name || "");
+      setEndereco(storedUser.endereco || "");
+      setPremium(storedUser.subscriptions?.status === "active" ? true : false);
+    }
+  }, []);
+
   return (
     <>
       <SideBar>
@@ -48,6 +103,9 @@ export default function Profile() {
                 size="lg"
                 type="text"
                 mb={3}
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+                color="white"
               />
               <Text color="white" mb={2} fontSize="xl" fontWeight="bold">
                 Endereço
@@ -58,7 +116,10 @@ export default function Profile() {
                 placeholder="Endereço da Barbearia"
                 size="lg"
                 type="text"
+                color="white"
                 mb={3}
+                value={endereco}
+                onChange={(e) => setEndereco(e.target.value)}
               />
               <Text color="white" mb={2} fontSize="xl" fontWeight="bold">
                 Plano Atual
@@ -74,8 +135,12 @@ export default function Profile() {
                 alignItems="center"
                 justifyContent="space-between"
               >
-                <Text p={2} color="#4dffb4" fontSize="lg">
-                  Plano Gratis
+                <Text
+                  p={2}
+                  color={!premium ? "#4dffb4" : "#FBA931"}
+                  fontSize="lg"
+                >
+                  Plano {premium ? "Premium" : "Free"}
                 </Text>
                 <Link to="/plans">
                   <Box
@@ -97,7 +162,8 @@ export default function Profile() {
                 color="black"
                 mt={4}
                 size="lg"
-                _hover={{ background: "#fecf8a", border: "none"}}
+                _hover={{ background: "#fecf8a", border: "none" }}
+                onClick={handleSave}
               >
                 Salvar
               </Button>
@@ -109,8 +175,9 @@ export default function Profile() {
                 size="lg"
                 bg="var(--barber-400)"
                 mt={4}
-                mb={6 }
+                mb={6}
                 _hover={{ bg: "transparent", borderColor: "red.500" }}
+                onClick={handleLogout}
               >
                 Sair da conta
               </Button>

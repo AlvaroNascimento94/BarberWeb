@@ -6,20 +6,11 @@ import {
   Heading,
   Stack,
   Text,
-  useMediaQuery,
 } from "@chakra-ui/react";
 import { IoPricetag } from "react-icons/io5";
 import { Switch } from "../../components/ui/switch";
 
 export default function HairCuts() {
-  const breakpoints = {
-    base: "0em", // 0px
-    sm: "30em", // ~480px
-    md: "48em", // ~768px
-    lg: "62em", // ~992px
-    xl: "80em", // ~1280px
-    "2xl": "96em", // ~1536px
-  };
 
   return (
     <>
@@ -64,14 +55,15 @@ export default function HairCuts() {
               w="100%"
               p={4}
               bg="var(--barber-400)"
-              direction="row"
+              direction={['column', 'row']}
+              alignItems={['flex-start', 'center']}
               rounded={4}
               mb={2}
               justifyContent={"space-between"}
             >
-              <Flex direction="row" alignItems="center" justifyContent="center" rounded={10}>
+              <Flex direction="row" alignItems="center" mb={[3 ,0]} justifyContent="center" rounded={10}>
                 <IoPricetag size={28} color=" #fba931" />
-                <Text mr={4} ml={4} noOfLines={2  } color="white" fontWeight="bold">
+                <Text mr={4} ml={4} color="white" fontWeight="bold">
                   corte completo
                 </Text>
               </Flex>

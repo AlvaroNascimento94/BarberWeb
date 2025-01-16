@@ -5,8 +5,8 @@ import Login from "./pages/login/Login";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import ProtectedRoute from "./utils/routes";
 import Profile from "./pages/profile/Profile";
-import HairCuts from './pages/haircuts/HairCut';
-
+import HairCuts from "./pages/haircuts/HairCut";
+import NewHairCut from "./pages/haircuts/new/NewHairCut";
 
 const router = createBrowserRouter([
   {
@@ -34,13 +34,21 @@ const router = createBrowserRouter([
     ),
   },
   {
-    path:"/haircuts",
+    path: "/haircuts",
     element: (
       <ProtectedRoute>
-        <HairCuts/>
+        <HairCuts />
       </ProtectedRoute>
     ),
-  }
+  },
+  {
+    path: "/haircuts/new",
+    element: (
+      <ProtectedRoute>
+        <NewHairCut />
+      </ProtectedRoute>
+    ),
+  },
 ]);
 
 function App() {

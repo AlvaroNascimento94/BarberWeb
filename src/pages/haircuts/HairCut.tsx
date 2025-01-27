@@ -55,7 +55,6 @@ export default function HairCuts({ haircuts }: HairCutProps) {
       },
     });
     setHaircutsList(response.data);
-    console.log(response.data);
   }
   useEffect(() => {
     hairCutList();

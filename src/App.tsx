@@ -7,6 +7,7 @@ import ProtectedRoute from "./utils/routes";
 import Profile from "./pages/profile/Profile";
 import HairCuts from "./pages/haircuts/HairCut";
 import NewHairCut from "./pages/haircuts/new/NewHairCut";
+import EditHairCut from "./pages/haircuts/EditHairCut";
 
 const router = createBrowserRouter([
   {
@@ -49,6 +50,14 @@ const router = createBrowserRouter([
       </ProtectedRoute>
     ),
   },
+  {
+    path: "haircuts/:id",
+    element: (
+      <ProtectedRoute>
+        <EditHairCut />
+      </ProtectedRoute>
+    ),
+  }
 ]);
 
 function App() {

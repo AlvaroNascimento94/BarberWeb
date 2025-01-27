@@ -14,7 +14,6 @@ export default function NewHairCut() {
   const api = setupAPIClient();
   async function HairCutCount() {
     const count = await api.get("/haircut/count");
-    console.log(count.data);
     setCount(count.data);
   }
   async function HairCutCheck() {

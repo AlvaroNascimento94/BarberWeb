@@ -4,10 +4,13 @@ import { Link } from "react-router-dom";
 import { IoChevronBackOutline } from "react-icons/io5";
 import { setupAPIClient } from "@/services/api";
 import { useEffect, useState } from "react";
+import { parseCookies } from "nookies";
 
 export default function NewHairCut() {
   const [count, setCount] = useState<number>();
   const [check, setCheck] = useState<boolean>();
+  const [name, setName] = useState<string>();
+  const [price, setPrice] = useState<string>();
 
   const countMax = 3;
 
@@ -24,11 +27,24 @@ export default function NewHairCut() {
       setCheck(false);
     }
   }
+  async function handleSave() {
+    const { "@barber.token": token } = parseCookies();
+        api.defaults.headers.Authorization = `Bearer ${token}`;
+    try {
+      await api.post("/haircut", {
+        name,
+        price: parseFloat(price),
+      });
+      alert("Corte cadastrado com sucesso!");
+    } catch (error) {
+      console.log(error);
+    }
+  }
 
   useEffect(() => {
     HairCutCount();
     HairCutCheck();
-  }, []);
+  });
   return (
     <>
       <SideBar>
@@ -85,7 +101,7 @@ export default function NewHairCut() {
               rounded={4}
               type="text"
               bg="var(--barber-900)"
-               
+              onChange={(e) => setName(e.target.value)}
             />
             <Input
               placeholder="Preço do Corte:"
@@ -95,6 +111,7 @@ export default function NewHairCut() {
               w="85%"
               bg="var(--barber-900)"
               rounded={4}
+              onChange={(e) => setPrice(e.target.value)}
             />
             <Button
               color="gray.9 00"
@@ -105,17 +122,24 @@ export default function NewHairCut() {
               fontWeight={"bold"}
               rounded={4}
               _hover={{ background: "#fecf8a", border: "none" }}
-              disabled={count >= countMax && !check ? true : false }
+              disabled={count >= countMax && !check ? true : false}
+              onClick={handleSave}
             >
               Cadastrar
             </Button>
-            {count >= countMax && !check ?  (
-                <Text color={"white"} mb={3} fontSize="xs">
+            {count >= countMax && !check ? (
+              <Text color={"white"} mb={3} fontSize="xs">
                 Você atingiou seu limite de cortes,
-                <Link to="/haircut/plans" style={{ color: "green", fontWeight:"bold" }}> seja premium </Link>e tenha
-                acesso ilimitado.
+                <Link
+                  to="/haircut/plans"
+                  style={{ color: "green", fontWeight: "bold" }}
+                >
+                  {" "}
+                  seja premium{" "}
+                </Link>
+                e tenha acesso ilimitado.
               </Text>
-            ):(null)}
+            ) : null}
           </Flex>
         </Flex>
       </SideBar>

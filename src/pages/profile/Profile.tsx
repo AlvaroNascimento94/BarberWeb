@@ -65,6 +65,7 @@ export default function Profile() {
           direction="column"
           alignItems="flex-start"
           justifyContent="flex-start"
+          mt={5}
         >
           <Flex
             width="100%"

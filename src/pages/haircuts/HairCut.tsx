@@ -68,16 +68,17 @@ export default function HairCuts({ haircuts }: HairCutProps) {
           alignItems="flex-start"
           justifyContent="flex-start"
           w="100%"
+          mt={5}
         >
           <Flex
             direction={["column", "row"]}
             alignItems={["flex-start", "center"]}
             justifyContent="flex-start"
             w="100%"
-            mb={0}
+            mb={2}
           >
             <Heading
-              fontSize={["28px ", "2xl"]}
+              fontSize={["28px ", "3xl"]}
               mt={4}
               mb={4}
               mr={4}

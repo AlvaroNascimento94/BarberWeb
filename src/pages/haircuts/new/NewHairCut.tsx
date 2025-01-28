@@ -54,7 +54,7 @@ export default function NewHairCut() {
             alignItems="center"
             justifyContent="flex-start"
             w="100%"
-            mt={10}
+            mt={5}
           >
             <Link to="/haircuts">
               <Button

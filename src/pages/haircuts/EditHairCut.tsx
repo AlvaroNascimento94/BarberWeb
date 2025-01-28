@@ -1,31 +1,97 @@
 import { SideBar } from "@/components/sideBar/SideBar";
 import { setupAPIClient } from "@/services/api";
 import { Flex, Text, Heading, Button, Input, Stack } from "@chakra-ui/react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { IoChevronBackOutline } from "react-icons/io5";
-import { Link, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { Switch } from "../../components/ui/switch";
+
+interface HairCutItem {
+  id: string;
+  name: string;
+  price: string;
+  status: boolean;
+  user_Id: string;
+}
 
 export default function EditHairCut() {
   const { id } = useParams();
-  const [count, setCount] = useState<number>();
+  const navigate = useNavigate();
   const [check, setCheck] = useState<boolean>();
+  const [haircut, setHairCut] = useState<HairCutItem>();
 
-  const countMax = 3;
+  const [name, setName] = useState<string | undefined>();
+  const [price, setPrice] = useState<string | undefined>();
+  const [status, setStatus] = useState<boolean | undefined>();
+
+  const [disabledHairCut, setDisabled] = useState(
+    status ? "disabled" : "enabled"
+  );
 
   const api = setupAPIClient();
-  async function HairCutCount() {
-    const count = await api.get("/haircut/count");
-    setCount(count.data);
-  }
-  async function HairCutCheck() {
+
+  async function hairCutCheck() {
     const response = await api.get("/haircut/check");
-    if (response.data.subscriptions.status === "active") {
+    if (response.data?.subscriptions.status === "active") {
       setCheck(true);
     } else {
       setCheck(false);
     }
   }
+  async function getHairCut() {
+    try {
+      const response = await api.get(`/haircut/detail`, {
+        params: {
+          haircut_id: id,
+        },
+      });
+      setHairCut(response.data);
+    } catch (error) {
+      console.log(error);
+    }
+  }
+  function handleStatus(e) {
+    if (e.target.value === "disabled") {
+      setDisabled("enabled");
+      setStatus(false);
+    } else {
+      setDisabled("disabled");
+      setStatus(true);
+    }
+  }
+  async function handleSave() {
+    
+    if (name==="" || price==="") {
+      alert("Preencha todos os campos");
+      return;
+    }
+    try {
+      await api.put(`/haircut`, {
+        haircut_id: id,
+        name:name,
+        price: Number(price),
+        status: status,
+      });
+      navigate("/haircuts");
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  useEffect(() => {
+    getHairCut();
+    hairCutCheck();
+  }, []);
+
+  useEffect(() => {
+    if (haircut) {
+      setName(haircut?.name);
+      setPrice(haircut?.price);
+      setStatus(haircut?.status);
+      setDisabled(haircut?.status ? "disabled" : "enabled");
+    }
+  }, [haircut]);
+
   return (
     <>
       <SideBar>
@@ -81,7 +147,8 @@ export default function EditHairCut() {
               maxWidth="700px"
             >
               <Input
-                placeholder="Nome do Modelo:"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
                 color="white"
                 fontSize={"lg"}
                 mb={5}
@@ -89,9 +156,11 @@ export default function EditHairCut() {
                 rounded={4}
                 type="text"
                 bg="var(--barber-900)"
+                disabled={!check ? true : false}
               />
               <Input
-                placeholder="Preço do Modelo:"
+                value={price}
+                onChange={(e) => setPrice(e.target.value)}
                 fontSize={"lg"}
                 type="text"
                 color="white"
@@ -99,10 +168,20 @@ export default function EditHairCut() {
                 bg="var(--barber-900)"
                 rounded={4}
                 mb={2}
+                disabled={!check ? true : false}
               />
-              <Stack  direction="row" pt={2} w="85%">
+              <Stack direction="row" pt={2} w="85%">
                 <Text color="white">Desativar Corte</Text>
-                <Switch colorPalette="orange" size="lg" />
+                <Switch
+                  colorPalette="orange"
+                  size="lg"
+                  disabled={!check ? true : false}
+                  checked={disabledHairCut === "disabled" ? false : true}
+                  value={disabledHairCut}
+                  onChange={(e) => {
+                    handleStatus(e);
+                  }}
+                />
               </Stack>
               <Button
                 color="gray.900"
@@ -113,34 +192,32 @@ export default function EditHairCut() {
                 fontWeight={"bold"}
                 rounded={4}
                 _hover={{ background: "#fecf8a", border: "none" }}
-                disabled={count >= countMax && !check ? true : false}
+                disabled={!check ? true : false}
+                onClick={handleSave}
               >
                 Salvar
               </Button>
-              {/* {count >= countMax && !check ? (
-              <Text color={"white"} mb={3} fontSize="xs">
-                Você atingiou seu limite de cortes,
-                <Link
-                  to="/haircut/plans"
-                  style={{ color: "green", fontWeight: "bold" }}
+              {!check ? (
+                <Text
+                  color={"white"}
+                  mb={3}
+                  fontSize="xs"
+                  alignItems={"center"}
+                  justifyContent={"center"}
                 >
-                  {" "}
-                  seja premium{" "}
-                </Link>
-                e tenha acesso ilimitado.
-              </Text>
-            ) : null} */}
-              -
-              <Text color={"white"} mb={3} fontSize="xs">
-                <Link
-                  to="/haircut/plans"
-                  style={{ color: "green", fontWeight: "bold" }}
-                >
-                  {" "}
-                  Seja premium{" "}
-                </Link>
-                e tenha todos oacessos liberados.
-              </Text>
+                  <Link
+                    to="/haircut/plans"
+                    style={{
+                      color: "green",
+                      fontWeight: "bold",
+                      marginRight: 3,
+                    }}
+                  >
+                    Seja premium
+                  </Link>
+                  e tenha todos os acessos liberados.
+                </Text>
+              ) : null}
             </Flex>
           </Flex>
         </Flex>

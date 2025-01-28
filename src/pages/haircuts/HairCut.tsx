@@ -4,7 +4,7 @@ import { Button, Flex, Heading, Stack, Text } from "@chakra-ui/react";
 import { IoPricetag } from "react-icons/io5";
 import { Switch } from "../../components/ui/switch";
 import { api } from "@/services/apiClient";
-import { useEffect, useState, ChangeEvent } from "react";
+import { useEffect, useState } from "react";
 import { parseCookies } from "nookies";
 import { setupAPIClient } from "@/services/api";
 interface HairCutItem {
@@ -92,7 +92,7 @@ export default function HairCuts({ haircuts }: HairCutProps) {
 
             <Stack ml={["auto"]} align="center" direction="row" p={2}>
               <Text color="white" fontWeight="bold">
-                ATIVOS
+                {disabled === "disabled" ? "Desativados" : "Ativados"}
               </Text>
               <Switch
                 colorPalette="green"

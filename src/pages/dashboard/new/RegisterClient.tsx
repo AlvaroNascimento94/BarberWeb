@@ -1,4 +1,5 @@
 import { SideBar } from "@/components/sideBar/SideBar";
+import { setupAPIClient } from "@/services/api";
 import {
   Button,
   Flex,
@@ -7,24 +8,55 @@ import {
   NativeSelectField,
   NativeSelectRoot,
 } from "@chakra-ui/react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { IoChevronBackOutline } from "react-icons/io5";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 export default function RegisterClient() {
-  const [value, setValue] = useState("");
+  const [modelHairCut, setModelHairCut] = useState([]);
+  const [value, setValue] = useState(modelHairCut[0]);
   const [customer, setCustomer] = useState("");
-  
+  const api = setupAPIClient();
+  const navigate = useNavigate();
 
-  const items = [
-    { value: "react", label: "React" },
-    { value: "vue", label: "Vue" },
-    { value: "angular", label: "Angular" },
-    { value: "svelte", label: "Svelte" },
-  ];
-async function handleSave() {
-    alert("Agendamento salvo com sucesso!");
-}
+  async function handleSave() {
+    try {
+      await api.post("/schedule", {
+        customer,
+        haircut_id: value,
+      });
+      console.log(customer, value);
+      
+
+      navigate("/dashboard");
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  async function getModelHairCut() {
+    const response = await api.get("/haircuts", {
+      params: {
+        status: true,
+      },
+    });
+    if (response.data) {
+      setModelHairCut(response.data);
+    }
+  }
+
+  function handleSelectValue(value) {
+    const selectedValue = modelHairCut.find((item) => item.id === value);
+    setValue(selectedValue.id);
+    console.log(selectedValue);
+  }
+
+  useEffect(() => {
+    getModelHairCut();
+  }, []);
+  useEffect(() => {
+    setValue(modelHairCut[0]?.id);
+  }, [modelHairCut]);
 
   return (
     <SideBar>
@@ -88,19 +120,19 @@ async function handleSave() {
             color="white"
             onChange={(e) => setCustomer(e.target.value)}
           />
-          <NativeSelectRoot size="md" width="85%" >
+          <NativeSelectRoot size="md" width="85%">
             <NativeSelectField
-              placeholder="Select option"
               fontSize={"lg"}
               value={value}
               bg={"var(--barber-900)"}
               color={"white"}
-              onChange={(e) => setValue(e.currentTarget.value)}
+              // onChange={(e) => setValue(e.currentTarget.value)}
+              onChange={(e) => handleSelectValue(e.target.value)}
               borderRadius={4}
             >
-              {items.map((item) => (
-                <option key={item.value} value={item.value}>
-                  {item.label}
+              {modelHairCut?.map((haircut) => (
+                <option key={haircut?.id} value={haircut?.id}>
+                  {haircut?.name}
                 </option>
               ))}
             </NativeSelectField>

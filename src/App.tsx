@@ -8,6 +8,7 @@ import Profile from "./pages/profile/Profile";
 import HairCuts from "./pages/haircuts/HairCut";
 import NewHairCut from "./pages/haircuts/new/NewHairCut";
 import EditHairCut from "./pages/haircuts/EditHairCut";
+import RegisterClient from "./pages/dashboard/new/RegisterClient";
 
 const router = createBrowserRouter([
   {
@@ -51,10 +52,17 @@ const router = createBrowserRouter([
     ),
   },
   {
-    path: "haircuts/:id",
+    path: "/haircuts/:id",
     element: (
       <ProtectedRoute>
         <EditHairCut />
+      </ProtectedRoute>
+    ),
+  },{
+    path: "/new",
+    element: (
+      <ProtectedRoute>
+        <RegisterClient />
       </ProtectedRoute>
     ),
   }

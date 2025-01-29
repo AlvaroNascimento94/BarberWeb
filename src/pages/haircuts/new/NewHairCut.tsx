@@ -48,7 +48,11 @@ export default function NewHairCut() {
   return (
     <>
       <SideBar>
-        <Flex direction="column" alignItems="center" justifyContent="center">
+        <Flex direction="column"
+        alignItems="flex-start"
+        justifyContent="flex-start"
+        w="100%"
+        mt={5}>
           <Flex
             direction="row"
             alignItems="center"
@@ -114,7 +118,7 @@ export default function NewHairCut() {
               onChange={(e) => setPrice(e.target.value)}
             />
             <Button
-              color="gray.9 00"
+              color="gray.900"
               mt={5}
               mb={5}
               w={"85%"}

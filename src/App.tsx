@@ -9,6 +9,7 @@ import HairCuts from "./pages/haircuts/HairCut";
 import NewHairCut from "./pages/haircuts/new/NewHairCut";
 import EditHairCut from "./pages/haircuts/EditHairCut";
 import RegisterClient from "./pages/dashboard/new/RegisterClient";
+import Plans from "./pages/plans/Plans";
 
 const router = createBrowserRouter([
   {
@@ -65,6 +66,14 @@ const router = createBrowserRouter([
         <RegisterClient />
       </ProtectedRoute>
     ),
+  },
+  {
+    path:"/plans",
+    element:(
+      <ProtectedRoute>
+        <Plans />
+      </ProtectedRoute>
+    )
   }
 ]);
 

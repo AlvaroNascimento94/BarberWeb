@@ -1,6 +1,6 @@
 import { SideBar } from "@/components/sideBar/SideBar";
 import { Button, Flex, Heading, Input, Text } from "@chakra-ui/react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { IoChevronBackOutline } from "react-icons/io5";
 import { setupAPIClient } from "@/services/api";
 import { useEffect, useState } from "react";
@@ -11,6 +11,7 @@ export default function NewHairCut() {
   const [check, setCheck] = useState<boolean>();
   const [name, setName] = useState<string>();
   const [price, setPrice] = useState<string>();
+  const navigate= useNavigate();
 
   const countMax = 3;
 
@@ -31,10 +32,15 @@ export default function NewHairCut() {
     const { "@barber.token": token } = parseCookies();
         api.defaults.headers.Authorization = `Bearer ${token}`;
     try {
+      if(!name || !price) {
+        alert("Preencha todos os campos!");
+        return;
+      }
       await api.post("/haircut", {
         name,
         price: parseFloat(price),
       });
+      navigate("/haircuts");
       alert("Corte cadastrado com sucesso!");
     } catch (error) {
       console.log(error);

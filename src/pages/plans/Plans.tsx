@@ -1,0 +1,182 @@
+import { SideBar } from "@/components/sideBar/SideBar";
+import { Button, Flex, Heading, Text } from "@chakra-ui/react";
+import { LuCircleCheck } from "react-icons/lu";
+
+export default function Plans() {
+  const check = true
+  return (
+    <SideBar>
+      <Flex
+        direction="column"
+        alignItems="flex-start"
+        justifyContent="flex-start"
+        w="100%"
+        mt={5}
+      >
+        <Heading
+          fontSize={["28px ", "3xl"]}
+          mt={5}
+          mr={4}
+          color="var(--orange-900)"
+        >
+          Plans
+        </Heading>
+      </Flex>
+      <Flex
+        pb={8}
+        w={"100%"}
+        maxW={"780px"}
+        direction="column"
+        alignItems="flex-start"
+        justify={"flex-start"}
+      >
+        <Flex
+          w="100%"
+          m="auto"
+          direction={["column", "column", "row"]}
+          align={["center", "center", "stretch"]}
+          justifyContent={"flex-start"}
+          pt={4}
+          gap={[0, 0, 4]}
+        >
+          {/* esquerda */}
+          <Flex
+            bg="var(--barber-400)"
+            rounded={10}
+            w="85%"
+            direction="column"
+            alignItems="center"
+            justifyContent="flex-start"
+            mt={10}
+            pb={8}
+            pt={8}
+            flex={1}
+          >
+            <Heading
+              fontSize={["md", "xl"]}
+              mb={8}
+              mr={4}
+              color="var(--orange-900)"
+            >
+              Planos Gratis
+            </Heading>
+            <Flex
+              direction="column"
+              alignItems="flex-start"
+              gap={4}
+              w={[null, null, "85%"]}
+              pl={4}
+            >
+              <Flex align={"center"} gap={2} justify={"flex-start"}>
+                <LuCircleCheck color="#00cd52" />
+                <Text color={"white"}>Registrar Cortes</Text>
+              </Flex>
+              <Flex align={"center"} gap={2}>
+                <LuCircleCheck color="#00cd52" />
+                <Text color={"white"}>Criar apenas 3 modelos</Text>
+              </Flex>
+              <Flex align={"center"} gap={2}>
+                <LuCircleCheck color="#00cd52" />
+                <Text color={"white"}>Editar dados do perfil</Text>
+              </Flex>
+            </Flex>
+          </Flex>
+          {/* Direita */}
+          <Flex
+            bg="var(--barber-400)"
+            w="85%"
+            flex={1}
+            rounded={10}
+            direction="column"
+            alignItems="center"
+            justifyContent="center"
+            mt={10}
+            maxWidth="700px"
+            pb={8}
+            pt={8}
+          >
+            <Heading fontSize={["md", "xl"]} mb={8} mr={4} color="#00cd52">
+              Premium
+            </Heading>
+            <Flex
+              direction="column"
+              alignItems="flex-start"
+              gap={4}
+              w={[null, null, "85%"]}
+              pl={4}
+            >
+              <Flex align={"center"} gap={2} justify={"flex-start"}>
+                <LuCircleCheck color="#00cd52" />
+                <Text color={"white"}>Registrar Cortes</Text>
+              </Flex>
+              <Flex align={"center"} gap={2}>
+                <LuCircleCheck color="#00cd52" />
+                <Text color={"white"}>Criar modelos</Text>
+              </Flex>
+              <Flex align={"center"} gap={2}>
+                <LuCircleCheck color="#00cd52" />
+                <Text color={"white"}>Editar modelos de corte</Text>
+              </Flex>
+              <Flex align={"center"} gap={2}>
+                <LuCircleCheck color="#00cd52" />
+                <Text color={"white"}>Editar dados do perfil</Text>
+              </Flex>
+              <Flex align={"center"} gap={2}>
+                <LuCircleCheck color="#00cd52" />
+                <Text color={"white"}>Receber atualizações</Text>
+              </Flex>
+              <Flex align={"center"} gap={2}>
+                <LuCircleCheck color="#00cd52" />
+                <Text
+                  color={"var(--orange-900)"}
+                  fontSize={"xl"}
+                  fontWeight={"bold"}
+                >
+                  R$ 29,90
+                </Text>
+              </Flex>
+              {
+                !check ? (
+                  <Button
+                    w={"100%"}
+                    m={2}
+                    bg={"var(--orange-900)"}
+                    color={"var(--barber-400)"}
+                    _hover={{ bg: "#fecf8a" }}
+                    onClick={() => console.log("Virar Premium")}
+                  >
+                    Virar Premium
+                  </Button>
+                ) : (
+                  <Flex
+                  direction="column"
+                  w={"100%"}>
+                  <Button
+                    w={"100%"}
+                    m={2}
+                    bg={"var(--barber-900)"}
+                    color={"white"}
+                    disabled
+                  >
+                    Você já é Premium
+                  </Button>
+                  <Button
+                    w={"100%"}
+                    m={2}
+                    bg={"var(--orange-900)"}
+                    color={"var(--barber-400)"}
+                    _hover={{ bg: "#fecf8a" }}
+                    onClick={() => console.log("Virar Premium")}
+                  >
+                    Alterar Assinatura
+                  </Button></Flex>
+                )
+              }
+             
+            </Flex>
+          </Flex>
+        </Flex>
+      </Flex>
+    </SideBar>
+  );
+}

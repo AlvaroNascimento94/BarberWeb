@@ -20,6 +20,10 @@ export default function RegisterClient() {
   const navigate = useNavigate();
 
   async function handleSave() {
+    if (!customer) {
+      alert("Preencha o nome do cliente");
+      return;
+    }
     try {
       await api.post("/schedule", {
         customer,
@@ -66,6 +70,7 @@ export default function RegisterClient() {
         justifyContent="flex-start"
         w="100%"
         mt={5}
+        
       >
         <Flex
           direction={["row"]}
@@ -103,6 +108,7 @@ export default function RegisterClient() {
           direction="column"
           alignItems="center"
           justifyContent="center"
+          m={"auto"}
           mt={10}
           maxWidth="700px"
           pb={8}
@@ -126,7 +132,6 @@ export default function RegisterClient() {
               value={value}
               bg={"var(--barber-900)"}
               color={"white"}
-              // onChange={(e) => setValue(e.currentTarget.value)}
               onChange={(e) => handleSelectValue(e.target.value)}
               borderRadius={4}
             >

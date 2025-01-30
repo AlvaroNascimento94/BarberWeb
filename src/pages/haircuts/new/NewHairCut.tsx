@@ -88,6 +88,7 @@ export default function NewHairCut() {
             direction="column"
             alignItems="center"
             justifyContent="center"
+            m={"auto"}
             mt={10}
             maxWidth="700px"
             pb={8}

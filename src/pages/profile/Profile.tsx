@@ -92,8 +92,11 @@ export default function Profile() {
             direction="column"
             alignItems="center"
             justifyContent="flex-start"
+            m="auto"
+            mt={10}
           >
-            <Flex direction="column" w="85%" alignItems="start">
+            <Flex direction="column" w="85%" alignItems="start"
+            >
               <Text color="white" mb={2} fontSize="xl" fontWeight="bold">
                 Nome da barbearia:
               </Text>

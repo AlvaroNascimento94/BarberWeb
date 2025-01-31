@@ -1,9 +1,48 @@
 import { SideBar } from "@/components/sideBar/SideBar";
+import { setupAPIClient } from "@/services/api";
 import { Button, Flex, Heading, Text } from "@chakra-ui/react";
+
+import { getStripeJs } from "@/utils/stripe-js";
+
+import { useEffect, useState } from "react";
 import { LuCircleCheck } from "react-icons/lu";
 
 export default function Plans() {
-  const check = true
+  const api = setupAPIClient();
+  const [preminum, setPremium] = useState<boolean>();
+  const handleSubscription = async () => {
+    if (preminum) {
+      return;
+    }
+    try {
+      const response = await api.post("/subscribe");
+      const { sessionId } = response.data;
+      const stripe = await getStripeJs();
+      if (!stripe) {
+        throw new Error("Stripe initialization failed");
+      }
+      await stripe.redirectToCheckout({ sessionId: sessionId });
+
+    } catch (error) {
+      console.error(error);
+    }
+
+  }
+
+  async function handlePremium() {
+    try {
+      const response = await api.get("/me");
+      setPremium(
+        response.data?.subscriptions?.status === "active" ? true : false
+      );
+    } catch (error) {
+      console.log(error);
+    }
+  }
+  useEffect(() => {
+    handlePremium();
+  }, []);
+
   return (
     <SideBar>
       <Flex
@@ -26,6 +65,7 @@ export default function Plans() {
         pb={8}
         w={"100%"}
         maxW={"780px"}
+        m={"auto"}
         direction="column"
         alignItems="flex-start"
         justify={"flex-start"}
@@ -63,9 +103,10 @@ export default function Plans() {
             <Flex
               direction="column"
               alignItems="flex-start"
+
               gap={4}
-              w={[null, null, "85%"]}
-              pl={4}
+              w={["85%", null, "85%"]}
+              pl={[12,24,3]}
             >
               <Flex align={"center"} gap={2} justify={"flex-start"}>
                 <LuCircleCheck color="#00cd52" />
@@ -102,8 +143,8 @@ export default function Plans() {
               direction="column"
               alignItems="flex-start"
               gap={4}
-              w={[null, null, "85%"]}
-              pl={4}
+              w={["85%", null, "85%"]}
+              pl={[12,3]}
             >
               <Flex align={"center"} gap={2} justify={"flex-start"}>
                 <LuCircleCheck color="#00cd52" />
@@ -135,25 +176,22 @@ export default function Plans() {
                   R$ 29,90
                 </Text>
               </Flex>
-              {
-                !check ? (
+              {!preminum ? (
+                <Button
+                  w={"100%"}
+                  m={2}
+                  bg={"var(--orange-900)"}
+                  color={"var(--barber-400)"}
+                  _hover={{ bg: "#fecf8a" }}
+                  onClick={handleSubscription}
+                >
+                  Virar Premium
+                </Button>
+              ) : (
+                <Flex direction="column" w={"100%"}>
                   <Button
                     w={"100%"}
-                    m={2}
-                    bg={"var(--orange-900)"}
-                    color={"var(--barber-400)"}
-                    _hover={{ bg: "#fecf8a" }}
-                    onClick={() => console.log("Virar Premium")}
-                  >
-                    Virar Premium
-                  </Button>
-                ) : (
-                  <Flex
-                  direction="column"
-                  w={"100%"}>
-                  <Button
-                    w={"100%"}
-                    m={2}
+                    mb={2}
                     bg={"var(--barber-900)"}
                     color={"white"}
                     disabled
@@ -162,17 +200,16 @@ export default function Plans() {
                   </Button>
                   <Button
                     w={"100%"}
-                    m={2}
+                    mt={2}
                     bg={"var(--orange-900)"}
                     color={"var(--barber-400)"}
                     _hover={{ bg: "#fecf8a" }}
                     onClick={() => console.log("Virar Premium")}
                   >
                     Alterar Assinatura
-                  </Button></Flex>
-                )
-              }
-             
+                  </Button>
+                </Flex>
+              )}
             </Flex>
           </Flex>
         </Flex>

@@ -3,7 +3,6 @@ import { SideBar } from "@/components/sideBar/SideBar";
 import { Link } from "react-router-dom";
 import { AuthContext } from "@/Context/AuthContext";
 import { useContext, useEffect, useState } from "react";
-import { parseCookies, setCookie } from "nookies";
 import { api } from "@/services/apiClient";
 
 interface UserProps {
@@ -30,17 +29,6 @@ export default function Profile() {
   }
 
   async function handleSave() {
-    const cookies = parseCookies();
-
-    const storedUser = JSON.parse(cookies["@user"]);
-    const updatedUser: UserProps = {
-      ...storedUser,
-      name,
-      endereco,
-    };
-    setCookie(null, "@user", JSON.stringify(updatedUser), {
-      maxAge: 60 * 60 * 24 * 30, // 30 days
-    });
     await api.put("/users", {
       name,
       endereco,
@@ -48,14 +36,15 @@ export default function Profile() {
     alert("Dados atualizados com sucesso!");
   }
 
+  async function info(){
+    const response = await api.get("/me");
+    setName(response.data.name);
+    setEndereco(response.data.address || "");
+    setPremium(response.data.subscriptions?.status === "active" ? true : false);
+  }
+
   useEffect(() => {
-    const cookies = parseCookies();
-    if (cookies["@user"]) {
-      const storedUser = JSON.parse(cookies["@user"]);
-      setName(storedUser.name || "");
-      setEndereco(storedUser.endereco || "");
-      setPremium(storedUser.subscriptions?.status === "active" ? true : false);
-    }
+    info();
   }, []);
 
   return (

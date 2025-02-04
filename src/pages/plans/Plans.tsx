@@ -6,12 +6,13 @@ import { getStripeJs } from "@/utils/stripe-js";
 
 import { useEffect, useState } from "react";
 import { LuCircleCheck } from "react-icons/lu";
+import { parseCookies, setCookie } from "nookies";
 
 export default function Plans() {
   const api = setupAPIClient();
-  const [preminum, setPremium] = useState<boolean>();
+  const [premium, setPremium] = useState<boolean>();
   const handleSubscription = async () => {
-    if (preminum) {
+    if (premium) {
       return;
     }
     try {
@@ -22,12 +23,10 @@ export default function Plans() {
         throw new Error("Stripe initialization failed");
       }
       await stripe.redirectToCheckout({ sessionId: sessionId });
-
     } catch (error) {
       console.error(error);
     }
-
-  }
+  };
 
   async function handlePremium() {
     try {
@@ -103,10 +102,9 @@ export default function Plans() {
             <Flex
               direction="column"
               alignItems="flex-start"
-
               gap={4}
               w={["85%", null, "85%"]}
-              pl={[12,24,3]}
+              pl={[12, 24, 3]}
             >
               <Flex align={"center"} gap={2} justify={"flex-start"}>
                 <LuCircleCheck color="#00cd52" />
@@ -144,7 +142,7 @@ export default function Plans() {
               alignItems="flex-start"
               gap={4}
               w={["85%", null, "85%"]}
-              pl={[12,3]}
+              pl={[12, 3]}
             >
               <Flex align={"center"} gap={2} justify={"flex-start"}>
                 <LuCircleCheck color="#00cd52" />
@@ -176,7 +174,7 @@ export default function Plans() {
                   R$ 29,90
                 </Text>
               </Flex>
-              {!preminum ? (
+              {!premium ? (
                 <Button
                   w={"100%"}
                   m={2}

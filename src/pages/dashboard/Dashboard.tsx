@@ -3,9 +3,10 @@ import { SideBar } from "@/components/sideBar/SideBar";
 import { IoPersonSharp } from "react-icons/io5";
 import { Link } from "react-router-dom";
 import { setupAPIClient } from "@/services/api";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { parseCookies } from "nookies";
 import { ModalInfo } from "@/components/model/ModalInfo";
+import { count } from "console";
 
 export interface ScheduleItem {
   id: string;
@@ -20,8 +21,8 @@ export interface ScheduleItem {
 
 export default function Dashboard() {
   const [schedules, setSchedules] = useState([]);
-  const {open, onOpen, onClose } = useDisclosure();
-  const [service, setService] = useState<ScheduleItem>()
+  const { open, onOpen, onClose } = useDisclosure();
+  const [service, setService] = useState<ScheduleItem>();
   const api = setupAPIClient();
 
   async function getSchedule() {
@@ -111,8 +112,7 @@ export default function Dashboard() {
           open={open}
           onOpen={onOpen}
           onClose={onClose}
-          />
-      
+        />
       </SideBar>
     </>
   );

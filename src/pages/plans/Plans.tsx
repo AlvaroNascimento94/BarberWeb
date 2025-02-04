@@ -6,7 +6,6 @@ import { getStripeJs } from "@/utils/stripe-js";
 
 import { useEffect, useState } from "react";
 import { LuCircleCheck } from "react-icons/lu";
-import { parseCookies, setCookie } from "nookies";
 
 export default function Plans() {
   const api = setupAPIClient();
@@ -38,6 +37,21 @@ export default function Plans() {
       console.log(error);
     }
   }
+
+  async function handleCreatePortal() {
+    try {
+      if (!premium) {
+        return;
+      }
+      const response = await api.post("/create-portal");
+      const { sessionId } = response.data;
+      window.location.href = sessionId;
+
+    } catch (error) {
+      console.log(error.message);
+    }
+  }
+
   useEffect(() => {
     handlePremium();
   }, []);
@@ -202,7 +216,7 @@ export default function Plans() {
                     bg={"var(--orange-900)"}
                     color={"var(--barber-400)"}
                     _hover={{ bg: "#fecf8a" }}
-                    onClick={() => console.log("Virar Premium")}
+                    onClick={handleCreatePortal}
                   >
                     Alterar Assinatura
                   </Button>

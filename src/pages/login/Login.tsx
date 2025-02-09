@@ -2,18 +2,18 @@ import {
   Button,
   Center,
   Flex,
-  Image,
   Input,
   Link,
   Text,
 } from "@chakra-ui/react";
-import logo from "../../../public/image/logotipo.png";
+
 import { useContext, useState } from "react";
 import { InputPassword } from "./LoginStyled";
-import {parseCookies} from "nookies";
+import { parseCookies } from "nookies";
 
 import { AuthContext } from "../../Context/AuthContext";
 import { useNavigate } from "react-router-dom";
+import { FaEyeSlash, FaEye  } from "react-icons/fa6";
 
 export default function Login() {
   const { SignIn } = useContext(AuthContext);
@@ -27,12 +27,12 @@ export default function Login() {
   const handleClick = () => setShow(!show);
 
   async function handleLogin() {
-    if( email==="" || password===""){
+    if (email === "" || password === "") {
       return;
     }
     await SignIn({ email, password });
-    const cookies = parseCookies()
-    const isLogged = cookies["@barber.token"]
+    const cookies = parseCookies();
+    const isLogged = cookies["@barber.token"];
 
     if (isLogged) {
       navigate("/dashboard");
@@ -45,13 +45,37 @@ export default function Login() {
       width="100 rem"
       alignItems="center"
       justifyContent="center"
+      bg={"var(--barber-400)"}
     >
       <Flex width={640} direction="column" p={14} borderRadius={8}>
         <Center p={4}>
-          <Image src={logo} alt="logo" height={100} objectFit="fill" />
+          <Flex
+            cursor="pointer"
+            userSelect="none"
+            alignItems="center"
+            flexDirection="row"
+            mb={10}
+          >
+            <Text
+              fontSize="3xl"
+              color="white"
+              fontFamily="monospace"
+              fontWeight="bold"
+            >
+              Barber
+            </Text>
+            <Text
+              fontSize="3xl"
+              color="var(--button-cta)"
+              fontFamily="monospace"
+              fontWeight="bold"
+            >
+              PRO
+            </Text>
+          </Flex>
         </Center>
         <Input
-          background="var(--barber-400)"
+          background="var(--barber-900)"
           variant="outline"
           size="lg"
           placeholder="Email"
@@ -60,7 +84,7 @@ export default function Login() {
           type="email"
           required
           mb={3}
-          color="white"
+          color="var(--color-text)"
           width="100%"
         />
         <InputPassword>
@@ -68,13 +92,13 @@ export default function Login() {
             pr="4.5rem"
             type={show ? "text" : "password"}
             placeholder="Enter password"
-            color="white"
+            color="var(--color-text)"
             required
             value={password}
             onChange={(e) => setPassword(e.target.value)}
           />
-          <Button h="1.75rem" size="sm" onClick={handleClick}>
-            {show ? "Hide" : "Show"}
+          <Button h="1.75rem" size="sm" bg="var(--color-text)" onClick={handleClick}>
+            {show ? <FaEyeSlash/>:<FaEye/> }
           </Button>
         </InputPassword>
         <Button
@@ -92,7 +116,7 @@ export default function Login() {
           Acessar
         </Button>
         <Center mt={6}>
-          <Link color="var(--barber-100)" href="/register">
+          <Link color="var(--color-text)" href="/register">
             <Text>
               Não tem uma conta? <strong> Registre-se</strong>
             </Text>

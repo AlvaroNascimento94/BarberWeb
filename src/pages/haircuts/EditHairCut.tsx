@@ -116,7 +116,7 @@ export default function EditHairCut() {
               </Button>
             </Link>
             <Heading
-              color="var(--orange-900)"
+              color="var(--color-text)"
               fontSize={["xl", "3xl"]}
               ml={3}
               fontWeight={"bold"}
@@ -206,7 +206,7 @@ export default function EditHairCut() {
                   justifyContent={"center"}
                 >
                   <Link
-                    to="/haircut/plans"
+                    to="/plans"
                     style={{
                       color: "green",
                       fontWeight: "bold",

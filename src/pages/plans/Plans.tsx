@@ -46,7 +46,6 @@ export default function Plans() {
       const response = await api.post("/create-portal");
       const { sessionId } = response.data;
       window.location.href = sessionId;
-
     } catch (error) {
       console.log(error.message);
     }
@@ -69,7 +68,7 @@ export default function Plans() {
           fontSize={["28px ", "3xl"]}
           mt={5}
           mr={4}
-          color="var(--orange-900)"
+          color="var(--color-text)"
         >
           Plans
         </Heading>
@@ -104,6 +103,7 @@ export default function Plans() {
             pb={8}
             pt={8}
             flex={1}
+            id="shadow"
           >
             <Heading
               fontSize={["md", "xl"]}
@@ -121,15 +121,15 @@ export default function Plans() {
               pl={[12, 24, 3]}
             >
               <Flex align={"center"} gap={2} justify={"flex-start"}>
-                <LuCircleCheck color="#00cd52" />
+                <LuCircleCheck color="#4ef993" />
                 <Text color={"white"}>Registrar Cortes</Text>
               </Flex>
               <Flex align={"center"} gap={2}>
-                <LuCircleCheck color="#00cd52" />
+                <LuCircleCheck color="#4ef993" />
                 <Text color={"white"}>Criar apenas 3 modelos</Text>
               </Flex>
               <Flex align={"center"} gap={2}>
-                <LuCircleCheck color="#00cd52" />
+                <LuCircleCheck color="#4ef993" />
                 <Text color={"white"}>Editar dados do perfil</Text>
               </Flex>
             </Flex>
@@ -146,9 +146,11 @@ export default function Plans() {
             mt={10}
             maxWidth="700px"
             pb={8}
+            
+           id="shadow"
             pt={8}
           >
-            <Heading fontSize={["md", "xl"]} mb={8} mr={4} color="#00cd52">
+            <Heading fontSize={["md", "xl"]} mb={8} mr={4} color="#4ef993">
               Premium
             </Heading>
             <Flex
@@ -159,27 +161,27 @@ export default function Plans() {
               pl={[12, 3]}
             >
               <Flex align={"center"} gap={2} justify={"flex-start"}>
-                <LuCircleCheck color="#00cd52" />
+                <LuCircleCheck color="#4ef993" />
                 <Text color={"white"}>Registrar Cortes</Text>
               </Flex>
               <Flex align={"center"} gap={2}>
-                <LuCircleCheck color="#00cd52" />
+                <LuCircleCheck color="#4ef993" />
                 <Text color={"white"}>Criar modelos</Text>
               </Flex>
               <Flex align={"center"} gap={2}>
-                <LuCircleCheck color="#00cd52" />
+                <LuCircleCheck color="#4ef993" />
                 <Text color={"white"}>Editar modelos de corte</Text>
               </Flex>
               <Flex align={"center"} gap={2}>
-                <LuCircleCheck color="#00cd52" />
+                <LuCircleCheck color="#4ef993" />
                 <Text color={"white"}>Editar dados do perfil</Text>
               </Flex>
               <Flex align={"center"} gap={2}>
-                <LuCircleCheck color="#00cd52" />
+                <LuCircleCheck color="#4ef993" />
                 <Text color={"white"}>Receber atualizações</Text>
               </Flex>
               <Flex align={"center"} gap={2}>
-                <LuCircleCheck color="#00cd52" />
+                <LuCircleCheck color="#4ef993" />
                 <Text
                   color={"var(--orange-900)"}
                   fontSize={"xl"}
@@ -193,7 +195,7 @@ export default function Plans() {
                   w={"100%"}
                   m={2}
                   bg={"var(--orange-900)"}
-                  color={"var(--barber-400)"}
+                  color="var(--color-text)"
                   _hover={{ bg: "#fecf8a" }}
                   onClick={handleSubscription}
                 >
@@ -214,7 +216,7 @@ export default function Plans() {
                     w={"100%"}
                     mt={2}
                     bg={"var(--orange-900)"}
-                    color={"var(--barber-400)"}
+                    color="var(--color-text)"
                     _hover={{ bg: "#fecf8a" }}
                     onClick={handleCreatePortal}
                   >

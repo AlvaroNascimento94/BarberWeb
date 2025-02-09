@@ -68,7 +68,7 @@ export default function NewHairCut() {
           >
             <Link to="/haircuts">
               <Button
-                bg="gray.700"
+                bg="var(--button-default)"
                 w={"90%"}
                 alignItems={"center"}
                 display={"flex"}
@@ -79,7 +79,7 @@ export default function NewHairCut() {
               </Button>
             </Link>
             <Heading
-              color="var(--orange-900)"
+              color="var(--color-text)"
               fontSize={["xl", "3xl"]}
               ml={3}
               fontWeight={"bold"}
@@ -99,6 +99,7 @@ export default function NewHairCut() {
             maxWidth="700px"
             pb={8}
             pt={8}
+            id="shadow"
           >
             <Heading color="white" fontSize={["xl", "2xl"]} mb={5}>
               Cadastrar Modelo
@@ -142,7 +143,7 @@ export default function NewHairCut() {
               <Text color={"white"} mb={3} fontSize="xs">
                 Você atingiou seu limite de cortes,
                 <Link
-                  to="/haircut/plans"
+                  to="/plans"
                   style={{ color: "green", fontWeight: "bold" }}
                 >
                   {" "}

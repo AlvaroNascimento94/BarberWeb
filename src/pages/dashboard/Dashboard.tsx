@@ -70,12 +70,12 @@ export default function Dashboard() {
               mt={4}
               mb={4}
               mr={4}
-              color="var(--orange-900)"
+              color="var(--color-text)"
             >
               Agenda
             </Heading>
             <Link to="/new">
-              <Button bg="gray.700">Registrar</Button>
+              <Button bg="var(--button-default)">Registrar</Button>
             </Link>
           </Flex>
           {schedules?.map((schedule) => (

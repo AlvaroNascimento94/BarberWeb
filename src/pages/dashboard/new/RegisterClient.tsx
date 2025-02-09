@@ -78,10 +78,11 @@ export default function RegisterClient() {
           justify={"flex-start"}
           align={["center"]}
           mb={2}
+
         >
-          <Link to={"/dashboard"}>
+          <Link to={"/dashboard"} >
             <Button
-              bg="gray.700"
+              bg="var(--button-default)"
               w={"90%"}
               alignItems={"center"}
               display={"flex"}
@@ -96,7 +97,7 @@ export default function RegisterClient() {
             mt={4}
             mb={4}
             mr={4}
-            color="var(--orange-900)"
+            color="var(--color-text)"
           >
             Novo Agendamento
           </Heading>
@@ -113,6 +114,7 @@ export default function RegisterClient() {
           maxWidth="700px"
           pb={8}
           pt={8}
+          id="shadow"
         >
           <Input
             placeholder="Nome do Cliente:"
@@ -123,7 +125,7 @@ export default function RegisterClient() {
             w="85%"
             rounded={4}
             type="text"
-            color="white"
+            color="var(--color-text2)"
             onChange={(e) => setCustomer(e.target.value)}
           />
           <NativeSelectRoot size="md" width="85%">
@@ -131,7 +133,7 @@ export default function RegisterClient() {
               fontSize={"lg"}
               value={value}
               bg={"var(--barber-900)"}
-              color={"white"}
+              color="var(--color-text2)"
               onChange={(e) => handleSelectValue(e.target.value)}
               borderRadius={4}
             >
@@ -143,7 +145,7 @@ export default function RegisterClient() {
             </NativeSelectField>
           </NativeSelectRoot>
           <Button
-            color="var(--barber-900)"
+            color="var(--color-text2)"
             mt={5}
             mb={5}
             w={"85%"}

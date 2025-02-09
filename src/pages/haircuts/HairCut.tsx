@@ -82,17 +82,17 @@ export default function HairCuts({ haircuts }: HairCutProps) {
               mt={4}
               mb={4}
               mr={4}
-              color="var(--orange-900)"
+              color="var(--color-text)"
             >
-              Modelos de cortes
+              Modelos de Cortes
             </Heading>
 
             <Link to="/haircuts/new">
-              <Button bg="gray.700">Cadastrar Novo</Button>
+              <Button bg="var(--button-default)">Cadastrar Novo</Button>
             </Link>
 
             <Stack ml={["auto"]} align="center" direction="row" p={2}>
-              <Text color="white" fontWeight="bold">
+              <Text color="var(--color-text)" fontWeight="bold">
                 {disabled === "disabled" ? "Desativados" : "Ativados"}
               </Text>
               <Switch
